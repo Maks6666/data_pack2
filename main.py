@@ -1,39 +1,62 @@
-# 1
-# Користувач заповнює з клавіатури список цілих.
-# Стисніть отримані дані та збережіть їх у файл. Після цього
-# завантажте дані з файлу в новий список.
+# 2
+# При старті програми з’являється меню з наступними
+# пунктами:
+# 1. Завантаження даних;
+# 2. Збереження даних;
+# 3. Додавання даних;
+# 4. Видалення даних.
+# Використайте список цілих як сховища даних. Також
+# застосуйте стиснення/розпакування даних.
 
 import pickle
 
-class ListToAppend:
+class ListOfNumbers:
     def __init__(self, lst):
         self.lst = lst
 
-    def length(self):
-        self.length_list = int(input("Input length of list: "))
-        for i in range(self.length_list):
-            num = int(input(f"Input number #{i+1}: "))
-            self.lst.append(num)
-        return self.lst
+    def print_info(self):
+        print(f"The list is {self.lst}")
 
-
-    def save_data(self, data):
-        self.data = data
+    def upload_data(self, data):
         with open("data.pickle", "wb") as file:
             pickle.dump(data, file)
-        return "Data saved."
 
-    def read_data(self, data):
+    def add_data(self, data):
+        with open("data.pickle", "wb") as file:
+            num_of_values = int(input("How many numbers fo you want to append?: "))
+            for i in range(num_of_values):
+                num = int(input(f"Input number #{i+1}:"))
+                data.append(num)
+            pickle.dump(data, file)
+
+
+    def del_data(self, data):
+        with open("data.pickle", "wb") as file:
+            num_of_values = int(input("How many numbers fo you want to delete?: "))
+            for i in range(num_of_values):
+                data.pop()
+            pickle.dump(data, file)
+
+
+    def output_data(self):
         with open("data.pickle", "rb") as file:
-            read_data = pickle.load(file)
-        return read_data
+            read_person = pickle.load(file)
+            return read_person
 
-list_1 = []
 
-lst = ListToAppend(list_1)
-lst.length()
-print(lst.save_data(list_1))
-print(f"Saved data: {lst.read_data(list_1)}")
+
+list_1 = [1, 2, 3, 4]
+lst = ListOfNumbers(list_1)
+lst.print_info()
+
+lst.upload_data(list_1)
+lst.add_data(list_1)
+lst.del_data(list_1)
+print(lst.output_data())
+
+
+
+
 
 
 
