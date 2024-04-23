@@ -1,16 +1,40 @@
-# This is a sample Python script.
+# 1
+# Користувач заповнює з клавіатури список цілих.
+# Стисніть отримані дані та збережіть їх у файл. Після цього
+# завантажте дані з файлу в новий список.
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+import pickle
+
+class ListToAppend:
+    def __init__(self, lst):
+        self.lst = lst
+
+    def length(self):
+        self.length_list = int(input("Input length of list: "))
+        for i in range(self.length_list):
+            num = int(input(f"Input number #{i+1}: "))
+            self.lst.append(num)
+        return self.lst
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+    def save_data(self, data):
+        self.data = data
+        with open("data.pickle", "wb") as file:
+            pickle.dump(data, file)
+        return "Data saved."
+
+    def read_data(self, data):
+        with open("data.pickle", "rb") as file:
+            read_data = pickle.load(file)
+        return read_data
+
+list_1 = []
+
+lst = ListToAppend(list_1)
+lst.length()
+print(lst.save_data(list_1))
+print(f"Saved data: {lst.read_data(list_1)}")
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
