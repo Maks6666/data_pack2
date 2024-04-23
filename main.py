@@ -46,7 +46,7 @@ dict_1 = {"login_1": "password_1", "login_2": "password_2"}
 dict = ListOfNumbers(dict_1)
 dict.print_info()
 
-dict.del_data()
+dict.upload_data(dict_1)
 dict.print_info()
 dict.del_data()
 dict.print_info()
