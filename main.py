@@ -1,61 +1,55 @@
 # 2
-# При старті програми з’являється меню з наступними
-# пунктами:
-# 1. Завантаження даних;
-# 2. Збереження даних;
-# 3. Додавання даних;
-# 4. Видалення даних.
-# Використайте список цілих як сховища даних. Також
-# застосуйте стиснення/розпакування даних.
+# Маємо певний словник з логінами і паролями користувачів. Логін використовується як ключ, пароль —
+# як значення. Реалізуйте: додавання, видалення, пошук,
+# редагування, збереження та завантаження даних (використовуючи стиснення та розпакування)..
 
 import pickle
-
+import gzip
 class ListOfNumbers:
-    def __init__(self, lst):
-        self.lst = lst
+    def __init__(self, dict):
+        self.dict = dict
 
     def print_info(self):
-        print(f"The list is {self.lst}")
+        print(f"The dictionary is {self.dict}")
 
     def upload_data(self, data):
-        with open("data.pickle", "wb") as file:
-            pickle.dump(data, file)
+        with gzip.open("data.gz", "wb") as file:
+            serialized_data = pickle.dumps(data)
+            file.write(serialized_data)
 
-    def add_data(self, data):
+    def add_data(self):
+        num_of_values = int(input("How many values do you want to append?: "))
+        for i in range(num_of_values):
+            key = input(f"Input key #{i+1}: ")
+            value = input(f"Input value for key '{key}': ")
+            self.dict[key] = value
+        self.upload_data(self.dict)
+
+
+    def del_data(self):
         with open("data.pickle", "wb") as file:
-            num_of_values = int(input("How many numbers fo you want to append?: "))
+            num_of_values = int(input("How many values fo you want to delete?: "))
             for i in range(num_of_values):
-                num = int(input(f"Input number #{i+1}:"))
-                data.append(num)
-            pickle.dump(data, file)
-
-
-    def del_data(self, data):
-        with open("data.pickle", "wb") as file:
-            num_of_values = int(input("How many numbers fo you want to delete?: "))
-            for i in range(num_of_values):
-                data.pop()
-            pickle.dump(data, file)
+                key = input(f"Input key #{i + 1} to delete: ")
+                del self.dict[key]
+            self.upload_data(self.dict)
 
 
     def output_data(self):
-        with open("data.pickle", "rb") as file:
+        with gzip.open("data.gz", "rb") as file:
             read_person = pickle.load(file)
             return read_person
 
 
 
-list_1 = [1, 2, 3, 4]
-lst = ListOfNumbers(list_1)
-lst.print_info()
+dict_1 = {"login_1": "password_1", "login_2": "password_2"}
+dict = ListOfNumbers(dict_1)
+dict.print_info()
 
-lst.upload_data(list_1)
-lst.add_data(list_1)
-lst.del_data(list_1)
-print(lst.output_data())
-
-
-
+dict.del_data()
+dict.print_info()
+dict.del_data()
+dict.print_info()
 
 
 
